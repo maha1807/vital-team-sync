@@ -11,7 +11,6 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Task, TaskStatus } from '@/types';
-import { mockTasks } from '@/data/mockData';
 
 const statusConfig = {
   todo: { label: 'To Do', color: 'bg-slate-500', count: 0 },
@@ -30,9 +29,10 @@ const priorityColors = {
 interface TaskCardProps {
   task: Task;
   onStatusChange: (taskId: string, newStatus: TaskStatus) => void;
+  onTaskClick: (task: Task) => void;
 }
 
-function TaskCard({ task, onStatusChange }: TaskCardProps) {
+function TaskCard({ task, onStatusChange, onTaskClick }: TaskCardProps) {
   const formatDate = (dateString?: string) => {
     if (!dateString) return null;
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -44,7 +44,7 @@ function TaskCard({ task, onStatusChange }: TaskCardProps) {
   const isOverdue = task.dueDate && new Date(task.dueDate) < new Date() && task.status !== 'done';
 
   return (
-    <Card className="group cursor-pointer transition-smooth hover:shadow-md border-border/50 bg-card/80 backdrop-blur-sm">
+    <Card className="group cursor-pointer transition-smooth hover:shadow-md border-border/50 bg-card/80 backdrop-blur-sm" onClick={() => onTaskClick(task)}>
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between">
           <div className="space-y-1 flex-1">
@@ -120,17 +120,19 @@ function TaskCard({ task, onStatusChange }: TaskCardProps) {
 
 interface TaskBoardProps {
   projectId: string;
+  onCreateTask: () => void;
+  onTaskClick: (task: Task) => void;
+  tasks: Task[];
+  onTaskUpdate: (updatedTask: Task) => void;
 }
 
-export function TaskBoard({ projectId }: TaskBoardProps) {
-  const [tasks, setTasks] = useState(mockTasks.filter(task => task.projectId === projectId));
-
+export function TaskBoard({ projectId, onCreateTask, onTaskClick, tasks, onTaskUpdate }: TaskBoardProps) {
   const handleStatusChange = (taskId: string, newStatus: TaskStatus) => {
-    setTasks(prev => prev.map(task => 
-      task.id === taskId 
-        ? { ...task, status: newStatus, updatedAt: new Date().toISOString() }
-        : task
-    ));
+    const updatedTask = tasks.find(task => task.id === taskId);
+    if (updatedTask) {
+      const newTask = { ...updatedTask, status: newStatus, updatedAt: new Date().toISOString() };
+      onTaskUpdate(newTask);
+    }
   };
 
   const columns = Object.keys(statusConfig) as TaskStatus[];
@@ -151,7 +153,7 @@ export function TaskBoard({ projectId }: TaskBoardProps) {
             <Filter className="h-4 w-4 mr-2" />
             Filter
           </Button>
-          <Button variant="hero" size="sm">
+          <Button variant="hero" size="sm" onClick={onCreateTask}>
             <Plus className="h-4 w-4 mr-2" />
             Add Task
           </Button>
@@ -180,6 +182,7 @@ export function TaskBoard({ projectId }: TaskBoardProps) {
                     key={task.id} 
                     task={task} 
                     onStatusChange={handleStatusChange}
+                    onTaskClick={onTaskClick}
                   />
                 ))}
               
@@ -187,6 +190,7 @@ export function TaskBoard({ projectId }: TaskBoardProps) {
               <Button 
                 variant="ghost" 
                 className="w-full border-2 border-dashed border-border/50 h-12 text-muted-foreground hover:border-primary hover:text-primary"
+                onClick={onCreateTask}
               >
                 <Plus className="h-4 w-4 mr-2" />
                 Add task

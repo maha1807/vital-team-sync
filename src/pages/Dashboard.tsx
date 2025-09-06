@@ -1,19 +1,29 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Plus, BarChart3, Users, CheckCircle2, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ProjectCard } from '@/components/dashboard/ProjectCard';
+import { CreateProjectModal } from '@/components/modals/CreateProjectModal';
 import { mockProjects, mockTasks, currentUser } from '@/data/mockData';
+import { Project } from '@/types';
 import heroBackground from '@/assets/hero-background.png';
 
 export function Dashboard() {
+  const navigate = useNavigate();
+  const [projects, setProjects] = useState<Project[]>(mockProjects);
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
+  const [showCreateProject, setShowCreateProject] = useState(false);
 
   // Calculate stats
-  const totalProjects = mockProjects.length;
+  const totalProjects = projects.length;
   const totalTasks = mockTasks.length;
   const completedTasks = mockTasks.filter(task => task.status === 'done').length;
   const myTasks = mockTasks.filter(task => task.assignee?.id === currentUser.id);
+
+  const handleProjectCreated = (newProject: Project) => {
+    setProjects(prev => [...prev, newProject]);
+  };
 
   const stats = [
     {
@@ -63,7 +73,7 @@ export function Dashboard() {
             Your intelligent collaboration hub is ready. Let's make today productive together.
           </p>
           <div className="flex items-center justify-center gap-4">
-            <Button variant="hero" size="xl" className="animate-glow">
+            <Button variant="hero" size="xl" className="animate-glow" onClick={() => setShowCreateProject(true)}>
               <Plus className="h-5 w-5 mr-2" />
               Create New Project
             </Button>
@@ -104,18 +114,18 @@ export function Dashboard() {
               <h2 className="text-2xl font-bold">Your Projects</h2>
               <p className="text-muted-foreground">Manage and track your active projects</p>
             </div>
-            <Button variant="default">
+            <Button variant="default" onClick={() => setShowCreateProject(true)}>
               <Plus className="h-4 w-4 mr-2" />
               New Project
             </Button>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {mockProjects.map((project) => (
+            {projects.map((project) => (
               <ProjectCard
                 key={project.id}
                 project={project}
-                onClick={() => setSelectedProjectId(project.id)}
+                onClick={() => navigate(`/project/${project.id}`)}
               />
             ))}
           </div>
@@ -146,6 +156,13 @@ export function Dashboard() {
           </Card>
         </section>
       </div>
+
+      {/* Create Project Modal */}
+      <CreateProjectModal
+        isOpen={showCreateProject}
+        onClose={() => setShowCreateProject(false)}
+        onProjectCreated={handleProjectCreated}
+      />
     </div>
   );
 }

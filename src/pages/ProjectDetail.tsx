@@ -7,14 +7,29 @@ import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { TaskBoard } from '@/components/dashboard/TaskBoard';
-import { mockProjects, mockDiscussions } from '@/data/mockData';
+import { CreateTaskModal } from '@/components/modals/CreateTaskModal';
+import { TaskDetailModal } from '@/components/modals/TaskDetailModal';
+import { mockProjects, mockDiscussions, mockTasks } from '@/data/mockData';
+import { Task } from '@/types';
 
 export function ProjectDetail() {
   const { projectId } = useParams();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('tasks');
+  const [showCreateTask, setShowCreateTask] = useState(false);
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+  const [tasks, setTasks] = useState(mockTasks.filter(task => task.projectId === projectId));
 
   const project = mockProjects.find(p => p.id === projectId);
+
+  const handleTaskCreated = (newTask: Task) => {
+    setTasks(prev => [...prev, newTask]);
+  };
+
+  const handleTaskUpdated = (updatedTask: Task) => {
+    setTasks(prev => prev.map(task => task.id === updatedTask.id ? updatedTask : task));
+    setSelectedTask(null);
+  };
   
   if (!project) {
     return (
@@ -119,15 +134,21 @@ export function ProjectDetail() {
           </TabsList>
 
           <TabsContent value="tasks" className="space-y-6">
-            <TaskBoard projectId={project.id} />
+            <TaskBoard 
+              projectId={project.id} 
+              onCreateTask={() => setShowCreateTask(true)}
+              onTaskClick={setSelectedTask}
+              tasks={tasks}
+              onTaskUpdate={handleTaskUpdated}
+            />
           </TabsContent>
 
           <TabsContent value="team" className="space-y-6">
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-semibold">Team Members</h2>
-              <Button variant="default">
+              <Button variant="default" onClick={() => setShowCreateTask(true)}>
                 <Plus className="h-4 w-4 mr-2" />
-                Invite Member
+                Add Task
               </Button>
             </div>
             
@@ -221,6 +242,26 @@ export function ProjectDetail() {
           </TabsContent>
         </Tabs>
       </div>
+
+      {/* Create Task Modal */}
+      <CreateTaskModal
+        isOpen={showCreateTask}
+        onClose={() => setShowCreateTask(false)}
+        onTaskCreated={handleTaskCreated}
+        projectId={project.id}
+        projectMembers={project.members}
+      />
+
+      {/* Task Detail Modal */}
+      {selectedTask && (
+        <TaskDetailModal
+          isOpen={!!selectedTask}
+          onClose={() => setSelectedTask(null)}
+          task={selectedTask}
+          onTaskUpdated={handleTaskUpdated}
+          projectMembers={project.members}
+        />
+      )}
     </div>
   );
 }

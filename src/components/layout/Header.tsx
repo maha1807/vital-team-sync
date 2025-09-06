@@ -115,14 +115,14 @@ export function Header() {
               <DropdownMenuSeparator />
               <DropdownMenuItem>
                 <User className="mr-2 h-4 w-4" />
-                <span>Profile</span>
+                <span onClick={() => window.location.href = '/profile'}>Profile</span>
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Settings className="mr-2 h-4 w-4" />
                 <span>Settings</span>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => window.location.href = '/auth'}>
                 Log out
               </DropdownMenuItem>
             </DropdownMenuContent>
