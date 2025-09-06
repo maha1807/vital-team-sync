@@ -1,73 +1,81 @@
-# Welcome to your Lovable project
+🌐 SynergySphere – Advanced Team Collaboration Platform
 
-## Project info
+URL: https://vital-team-sync.vercel.app/
 
-**URL**: https://lovable.dev/projects/fa168208-8439-43ab-a60e-616c1d768ccb
+SynergySphere is a next-gen team collaboration and project management platform that goes beyond traditional tools. Designed for productivity, communication, and smart decision-making, SynergySphere helps teams stay organized, efficient, and aligned in one unified workspace.
 
-## How can I edit this code?
+✨ Features
 
-There are several ways of editing your application.
+✅ Intelligent Project Management – Organize tasks, assign roles, and track progress effortlessly
+✅ Seamless Communication – Real-time messaging and discussions to eliminate silos
+✅ Resource Management – Monitor workloads and allocate resources effectively
+✅ AI-Powered Insights – Get recommendations for prioritization and decision-making
+✅ Customizable Dashboards – Tailored views for projects, timelines, and KPIs
+✅ Modern UI/UX – Built with React + Tailwind + shadcn for a sleek and responsive experience
 
-**Use Lovable**
+🛠️ Tech Stack
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/fa168208-8439-43ab-a60e-616c1d768ccb) and start prompting.
+⚡ Frontend: React
+ + Vite
+ + TypeScript
 
-Changes made via Lovable will be committed automatically to this repo.
+🎨 UI Frameworks: Tailwind CSS
+ + shadcn/ui
 
-**Use your preferred IDE**
+🔧 Tooling: Node.js, npm
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+☁️ Deployment: Lovable
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+🚀 Getting Started
 
-Follow these steps:
+Follow these steps to run SynergySphere locally:
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
+1️⃣ Clone the Repository
 git clone <YOUR_GIT_URL>
+cd synergy-sphere
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+2️⃣ Install Dependencies
+npm install
 
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+3️⃣ Start Development Server
 npm run dev
-```
 
-**Edit a file directly in GitHub**
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+Your app will be available at http://localhost:5173/
+ 🎉
 
-**Use GitHub Codespaces**
+🌍 Deployment
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+Easiest way:
 
-## What technologies are used for this project?
+Open your project in Lovable
 
-This project is built with:
+Click Share → Publish
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+For a custom domain:
 
-## How can I deploy this project?
+Go to Project > Settings > Domains
 
-Simply open [Lovable](https://lovable.dev/projects/fa168208-8439-43ab-a60e-616c1d768ccb) and click on Share -> Publish.
+Click Connect Domain
 
-## Can I connect a custom domain to my Lovable project?
+🤝 Contributing
 
-Yes, you can!
+We welcome contributions!
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+Fork the repo
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+Create a new branch (feature/your-feature-name)
+
+Commit your changes
+
+Push and open a Pull Request
+
+📜 License
+
+This project is licensed under the MIT License.
+
+👩‍💻 About SynergySphere
+
+SynergySphere isn’t just a project management tool — it’s a collaboration ecosystem built for the future of work. Whether you’re a startup or an enterprise, SynergySphere adapts to your workflow, making teamwork smarter and smoother.
+
+✨ Built with passion, powered by innovation.
